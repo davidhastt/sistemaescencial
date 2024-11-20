@@ -30,6 +30,7 @@
             <th>ID Cliente</th>
             <th>Abono</th>
             <th>Fecha</th>
+            <th>Accion</th>
         </tr>
         <?php
         //1.
@@ -50,20 +51,30 @@
         }
         //3.
         // Consulta para obtener los datos de la tabla 'abonos'
-        $query = "SELECT id_cliente, abono, fecha FROM abonos";
-        $result = pg_query($conn, $query); //Ejecutar la sentencia SQL
-        if ($result) {
-            while ($row = pg_fetch_assoc($result)) {
-                echo "<tr>";
-                echo "<td>" . htmlspecialchars($row['id_cliente']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['abono']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['fecha']) . "</td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "Error al obtener datos: " . pg_last_error();
-        }
-        pg_close($conn);
+        $query = "SELECT id_abono, id_cliente, abono, fecha FROM abonos";
+
+
+
+
+$result = pg_query($conn, $query); //Ejecutar la sentencia SQL
+if ($result) {
+    while ($row = pg_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>" . htmlspecialchars($row['id_cliente']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['abono']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['fecha']) . "</td>";
+        echo "<td> 
+                <form action='borrar.php' method='post'> 
+                    <input type='hidden' name='id_abono' value='" . htmlspecialchars($row['id_abono']) . "'> 
+                    <button type='submit'>Borrar</button>
+                </form>                 
+                </td>";
+        echo "</tr>";
+    }
+} else {
+    echo "Error al obtener datos: " . pg_last_error();
+}
+pg_close($conn);
 //1. Nos conectamos a postgres
 //2. Verificamos que la conexion a postgres se halla realizado exitosamente
 //3. Creamos una sentencia SQL y la ejecutamos
