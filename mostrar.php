@@ -51,7 +51,7 @@
         }
         //3.
         // Consulta para obtener los datos de la tabla 'abonos'
-        $query = "SELECT id_abono, id_cliente, abono, fecha FROM abonos";
+        $query = "SELECT id_abono, id_cliente, abono, fecha FROM abonos ORDER BY id_cliente";
 
 
 
@@ -67,7 +67,14 @@ if ($result) {
                 <form action='borrar.php' method='post'> 
                     <input type='hidden' name='id_abono' value='" . htmlspecialchars($row['id_abono']) . "'> 
                     <button type='submit'>Borrar</button>
+                </form>
+                
+                <form action='verAbono.php' method='post'> 
+                    <input type='hidden' name='id_abono' value='" . htmlspecialchars($row['id_abono']) . "'> 
+                    <button type='submit'>Actualizar</button>
                 </form>                 
+
+
                 </td>";
         echo "</tr>";
     }
